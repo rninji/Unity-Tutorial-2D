@@ -2,11 +2,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public float moveSpeed;
-    void Start()
-    {
-    }
-
+    private float moveSpeed;
     void Update()
     {
         if (Input.GetKey(KeyCode.W))
