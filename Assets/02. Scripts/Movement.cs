@@ -2,25 +2,15 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    private float moveSpeed;
+    public float moveSpeed;
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
-        {
-            this.transform.position = this.transform.position + Vector3.forward * (moveSpeed * Time.deltaTime);    
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            this.transform.position = this.transform.position + Vector3.back * (moveSpeed * Time.deltaTime);    
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            this.transform.position = this.transform.position + Vector3.left * (moveSpeed * Time.deltaTime);    
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            this.transform.position = this.transform.position + Vector3.right * (moveSpeed * Time.deltaTime);    
-        }
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
         
+        Vector3 dir = new Vector3(h, 0, v);
+        Debug.Log($"현재 입력 : {dir}");
+        transform.position += dir * moveSpeed * Time.deltaTime;
+
     }
 }
