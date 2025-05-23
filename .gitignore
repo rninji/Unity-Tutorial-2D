@@ -82,3 +82,6 @@ crashlytics-build.properties
 
 # idea
 *.idea
+
+# downloaded Assets
+Planets of the Solar System 3D/
