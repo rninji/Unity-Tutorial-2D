@@ -7,7 +7,7 @@ public class Study_GameObject : MonoBehaviour
     public GameObject destroyObject;
     public Vector3 pos;
     public Quaternion rot;
-    void Start()
+    void Awake()
     {
         CreateAmongus();
     }
@@ -21,6 +21,7 @@ public class Study_GameObject : MonoBehaviour
     {
         GameObject obj = Instantiate(prefab, pos, rot);
         obj.name = "어몽어스 캐릭터";
+        obj.tag = "Player";
         Debug.Log($"자식 오브젝트의 수 : {obj.transform.childCount}");
         Debug.Log($"첫번째 자식 오브젝트의 이름 : {obj.transform.GetChild(0).name}");
         Debug.Log($"마지막 자식 오브젝트의 이름 : {obj.transform.GetChild(obj.transform.childCount - 1).name}");
