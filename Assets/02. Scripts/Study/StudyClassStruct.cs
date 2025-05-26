@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class Study_Class
+public class StudyClass
 {
     public int number;
 
-    public Study_Class(int number)
+    public StudyClass(int number)
     {
         this.number = number;
     }
@@ -25,8 +25,8 @@ public class Study_ClassStruct : MonoBehaviour
     void Start()
     {
         Debug.Log("클래스 -----------------------");
-        Study_Class c1 = new Study_Class(10);
-        Study_Class c2 = c1;
+        StudyClass c1 = new StudyClass(10);
+        StudyClass c2 = c1;
         Debug.Log($"c1 : {c1.number} / c2 : {c2.number}");
         c2.number = 20;
         Debug.Log($"c1 : {c1.number} / c2 : {c2.number}");

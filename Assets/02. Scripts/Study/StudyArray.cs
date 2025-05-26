@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Study_Array : MonoBehaviour
+public class StudyArray : MonoBehaviour
 {
     public int[] arrayNumber = new int[5];
     public List<int> listNumber = new List<int>();
