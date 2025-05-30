@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    public static int coinCount = 0;
     public float moveSpeed;
     void Update()
     {
