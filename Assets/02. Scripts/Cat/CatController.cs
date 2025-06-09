@@ -9,6 +9,7 @@ public class CatController : MonoBehaviour
     Animator catAnim;
     
     public float jumpPower = 10f;
+    public float limitPower = 20f;
     public bool isGround = false;
 
     public int jumpCount = 0;
@@ -28,7 +29,16 @@ public class CatController : MonoBehaviour
             catAnim.SetBool("isGround", false);
             catRb.AddForceY(jumpPower, ForceMode2D.Impulse); // Impulse : 순간적으로 힘을 가하는 방식
             jumpCount++;
+
+            if (catRb.linearVelocityY > limitPower)
+                catRb.linearVelocityY = limitPower;
         }
+
+        var catRotation = transform.eulerAngles;
+        catRotation.z = catRb.linearVelocityY * 2f;
+        transform.eulerAngles = catRotation;
+
+
     }
 
     void OnCollisionEnter2D(Collision2D other)

@@ -6,6 +6,12 @@ public class Transform_LoopMap : MonoBehaviour
     public float returnPosX = 15f;
     public float randomPosY;
 
+    void Start()
+    {
+        randomPosY = Random.Range(-8f, -5.5f);
+        transform.position = new Vector3(transform.position.x, randomPosY, 0);
+    }
+
     void Update()
     {
         transform.position += Vector3.left * moveSpeed * Time.deltaTime;
