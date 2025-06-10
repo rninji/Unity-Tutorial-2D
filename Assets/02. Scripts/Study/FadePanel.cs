@@ -5,25 +5,22 @@ using UnityEngine.UI;
 public class FadePanel : MonoBehaviour
 {
     public Image fadePanel;
-    public bool isFadeIn = false;
 
-    void Start()
+    public void OnFade(float fadeTime, Color color)
     {
-        StartCoroutine(FadeRoutine(3f));
+        StartCoroutine(FadeRoutine(fadeTime, color));
     }
-    IEnumerator FadeRoutine(float fadeTime)
+    IEnumerator FadeRoutine(float fadeTime, Color color)
     {
         float percent = 0f;
         float timer = 0f; // 사용될 타이머
-        float value = 0f;
         
-        while (timer <= fadeTime)
+        while (percent < 1f)
         {
             timer += Time.deltaTime;
             percent = timer / fadeTime;
-            value = isFadeIn ? 1 - percent : percent;
             
-            fadePanel.color = new Color(fadePanel.color.r, fadePanel.color.g, fadePanel.color.b, value);
+            fadePanel.color = new Color(color.r, color.g, color.b, percent);
             yield return null;  
         }
     }

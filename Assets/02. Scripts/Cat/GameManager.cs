@@ -1,14 +1,31 @@
+using Cat;
 using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public SoundManager soundManager;
+    
     public TextMeshProUGUI playTimeUI;
+    public TextMeshProUGUI scoreUI;
+    
     private float timer;
+    public static int score;
+
+    public static bool isPlay;
+
+    void Start()
+    {
+        soundManager.SetBGMSound("Intro");
+    }
 
     void Update()
     {
+        if (!isPlay) return;
+        
         timer += Time.deltaTime;
-        playTimeUI.text = string.Format("플레이 시간 : {0:f1}초", timer);
+
+        playTimeUI.text = $"Play Time : {timer:f1}s";
+        scoreUI.text = $"X {score}";
     }
 }

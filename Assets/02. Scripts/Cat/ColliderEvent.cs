@@ -9,6 +9,7 @@ public class ColliderEvent : MonoBehaviour
       {
          // 고양이가 부딪힌 경우
          fadeUI.SetActive(true);
+         
       }
    }
 }

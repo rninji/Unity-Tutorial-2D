@@ -8,15 +8,16 @@ namespace Cat
         public AudioSource audioSource;
         public AudioClip bgmClip;
         public AudioClip jumpClip;
+        public AudioClip introBGMClip;
+        public AudioClip pickupClip;
 
-        public void Start()
+        public void SetBGMSound(string bgmName)
         {
-            SetBGMSound();
-        }
-
-        public void SetBGMSound()
-        {
-            audioSource.clip = bgmClip;
+            if (bgmName == "Intro")
+                audioSource.clip = introBGMClip;
+            else if (bgmName == "Play")
+                audioSource.clip = bgmClip;
+            
             audioSource.playOnAwake = true;
             audioSource.loop = true;
             audioSource.volume = 0.1f;
@@ -28,5 +29,11 @@ namespace Cat
         {
             audioSource.PlayOneShot(jumpClip);
         }
+
+        public void OnColliderSound()
+        {
+            audioSource.PlayOneShot(pickupClip);
+        }
+        
     }
 }
