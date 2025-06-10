@@ -9,6 +9,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        playTimeUI.text = string.Format("플레이 시간 : {0:f1}", timer);
+        playTimeUI.text = string.Format("플레이 시간 : {0:f1}초", timer);
     }
 }

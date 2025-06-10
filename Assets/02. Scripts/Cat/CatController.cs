@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Cat;
 
@@ -57,6 +58,16 @@ public class CatController : MonoBehaviour
         {
             isGround = false;
             
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Apple"))
+        {
+            var collectEffect = other.GetComponentInParent<ItemEvent>();
+            collectEffect.collectEffect.SetActive(true);
+            other.gameObject.SetActive(false);
         }
     }
 }
