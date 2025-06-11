@@ -1,17 +1,16 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Cat;
 
 public class CatController : MonoBehaviour
 {
     public SoundManager soundManager;
+    public VideoManager videoManager;
 
     public GameObject gameOverUI;
     public GameObject fadeUI;
     public GameObject playUI;
-
-    public GameObject happyVideo;
-    public GameObject sadVideo;
     
     private Rigidbody2D catRb;
     Animator catAnim;
@@ -68,7 +67,7 @@ public class CatController : MonoBehaviour
             fadeUI.GetComponent<FadePanel>().OnFade(3f, Color.black);
             GetComponent<CircleCollider2D>().enabled = false;
             
-            Invoke("SadVideo", 5f);
+            StartCoroutine(EndingRoutine(false));
         }
     }
 
@@ -90,33 +89,26 @@ public class CatController : MonoBehaviour
             GameManager.score++;
             
             // 사과 10개 획득 시 해피 비디오 실행
-            if (GameManager.score >= 10)
+            if (GameManager.score >= 1)
             {
                 fadeUI.SetActive(true);
                 fadeUI.GetComponent<FadePanel>().OnFade(3f, Color.white);
                 GetComponent<CircleCollider2D>().enabled = false;
                 
-                Invoke("HappyVideo", 5f);
-                
+                StartCoroutine(EndingRoutine(true));
             }
         }
     }
 
-    void HappyVideo()
+    IEnumerator EndingRoutine(bool isHappy)
     {
-        happyVideo.SetActive(true);
+        yield return new WaitForSeconds(3.5f);
+        videoManager.VideoPlay(isHappy);
+        yield return new WaitUntil(() => videoManager.vPlayer.isPlaying);
+        
         fadeUI.SetActive(false);
         gameOverUI.SetActive(false);
-        playUI.SetActive(false);
         soundManager.audioSource.mute = true;
-    }
-
-    void SadVideo()
-    {
-        sadVideo.SetActive(true);
-        fadeUI.SetActive(false);
-        gameOverUI.SetActive(false);
-        playUI.SetActive(false);
-        soundManager.audioSource.mute = true;
+        
     }
 }
