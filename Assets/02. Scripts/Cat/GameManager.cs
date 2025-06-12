@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI playTimeUI;
     public TextMeshProUGUI scoreUI;
     
-    private float timer;
+    private static float timer;
     public static int score;
 
     public static bool isPlay;
@@ -27,5 +27,11 @@ public class GameManager : MonoBehaviour
 
         playTimeUI.text = $"Play Time : {timer:f1}s";
         scoreUI.text = $"X {score}";
+    }
+
+    public static void ResetPlayUI()
+    {
+        timer = 0f;
+        score = 0;
     }
 }

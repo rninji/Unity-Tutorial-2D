@@ -22,7 +22,6 @@ namespace Cat
             var clip = isHappy ? vClips[0] : vClips[1];
             vPlayer.clip = clip;
             vPlayer.Play();
-            vPlayer.Play();
         }
     }
 }

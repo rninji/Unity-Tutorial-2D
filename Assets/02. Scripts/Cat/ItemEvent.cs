@@ -12,11 +12,18 @@ public class ItemEvent : MonoBehaviour
     public GameObject pipe;
     public GameObject apple;
     public GameObject collectEffect;
-    
-    void Start()
+
+    private Vector3 initPos;
+
+    void Awake()
     {
-        SetRandomPos(transform.position.x);
+        initPos = transform.localPosition;
     }
+    void OnEnable()
+    {
+        SetRandomPos(initPos.x);
+    }
+
 
     void Update()
     {
