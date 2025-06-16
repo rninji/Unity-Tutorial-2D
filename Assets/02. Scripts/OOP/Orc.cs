@@ -1,14 +1,9 @@
 using UnityEngine;
 
-public class Orc : Monster
+public class Orc : Monster, IMove
 {
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
+   public void Move()
+   {
+      
+   }
 }

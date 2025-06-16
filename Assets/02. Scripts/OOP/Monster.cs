@@ -1,15 +1,10 @@
 using UnityEngine;
 
-public  class Monster : MonoBehaviour
+public  class Monster : Character
 {
-    public virtual void Attack()
-    {
-        // 몬스터 공격
-    }
-
-    public virtual void Shout()
-    {
-        // 몬스터 소리
-    }
+   public string name;
+   public int age;
+   public string shoolName;
+   public int classNumber;
 
 }
