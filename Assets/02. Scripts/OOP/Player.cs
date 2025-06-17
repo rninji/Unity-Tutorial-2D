@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : Character, IMove
+public class Player : IMove
 {
     public void Move()
     {
