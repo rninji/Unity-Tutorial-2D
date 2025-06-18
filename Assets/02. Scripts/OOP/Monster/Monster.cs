@@ -1,9 +1,15 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class Monster : MonoBehaviour
 {
+    Animator anim;
     SpriteRenderer sRenderer;
+    public SpawnManager spawner;
+    
     protected float hp = 3f;
+     bool isMove = true;
+     bool isHit = false;
    
     [SerializeField]
     protected float moveSpeed = 3f;
@@ -14,6 +20,8 @@ public abstract class Monster : MonoBehaviour
 
     void Start()
     {
+        spawner = FindFirstObjectByType<SpawnManager>();
+        anim = GetComponent<Animator>();
         sRenderer = GetComponent<SpriteRenderer>();
         Init();
     }
@@ -23,12 +31,15 @@ public abstract class Monster : MonoBehaviour
     }
 
     void OnMouseDown()
-    {
-        Hit(1);
+    { 
+        StartCoroutine(Hit(1));
     }
 
     void Move()
     {
+        if (isMove == false)
+            return;
+        
         transform.position += Vector3.right * dir * moveSpeed * Time.deltaTime;
         if (transform.position.x > 8f)
         {
@@ -42,13 +53,31 @@ public abstract class Monster : MonoBehaviour
         }
     }
 
-    void Hit(float damage)
+    IEnumerator Hit(float damage)
     {
+        if (isHit)
+            yield break;
+        
+        isHit = true;
         hp -= damage;
+        isMove = false;
+        anim.SetTrigger("Hit");
+        
         if (hp <= 0)
         {
-            Debug.Log($"몬스터 사망 : {gameObject.name}");
+            anim.SetTrigger("Death");
+            
+            spawner.DropItem(gameObject.transform.position); // 코인 생성
+            
+            yield return new WaitForSeconds(3.0f);
             Destroy(gameObject);
+            
+            
+            yield break;
         }
+
+        yield return new WaitForSeconds(0.5f);
+        isMove = true;
+        isHit = false;
     }
 }
