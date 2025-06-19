@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7362692975595713135}
   - component: {fileID: 7111637970217725754}
   - component: {fileID: 68710337639167947}
+  - component: {fileID: 769489587660845839}
+  - component: {fileID: 5597576608459236113}
   m_Layer: 10
   m_Name: RedPotion
   m_TagString: Untagged
@@ -152,3 +154,29 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.275}
   m_Radius: 0.275
+--- !u!114 &769489587660845839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4055577432058577640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02aa4c7eb001b4935876c58f38a19bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  potionType: 2
+--- !u!114 &5597576608459236113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4055577432058577640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02aa4c7eb001b4935876c58f38a19bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  potionType: 0

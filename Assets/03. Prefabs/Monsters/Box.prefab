@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6268893478792418490}
   - component: {fileID: 370572044687656379}
   - component: {fileID: 374548190758221568}
+  - component: {fileID: -1193544634753850546}
   m_Layer: 10
   m_Name: Box
   m_TagString: Untagged
@@ -162,3 +163,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.95, y: 0.6}
   m_EdgeRadius: 0
+--- !u!114 &-1193544634753850546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7539714919866294133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02aa4c7eb001b4935876c58f38a19bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  potionType: 0
