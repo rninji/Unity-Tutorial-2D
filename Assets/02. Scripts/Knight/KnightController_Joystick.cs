@@ -1,14 +1,20 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class KnightController_Joystick : MonoBehaviour
 {
     Animator animator;
     Rigidbody2D knightRb;
+    
+    [SerializeField] Button jumpButton;
+    [SerializeField] Button attackButton;
 
     private Vector3 inputDir;
 
     private bool isGround;
+    private bool isCombo;
+    private bool isAttack;
 
     [SerializeField]
     private float moveSpeed = 3f;
@@ -18,11 +24,9 @@ public class KnightController_Joystick : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         knightRb = GetComponent<Rigidbody2D>();
-    }
-
-    void Update()
-    {
         
+        jumpButton.onClick.AddListener(Jump);
+        attackButton.onClick.AddListener(Attack);
     }
     
     void FixedUpdate()
@@ -48,19 +52,22 @@ public class KnightController_Joystick : MonoBehaviour
         }
     }
 
-    // void InputKeyboard()
-    // {
-    //     float h = Input.GetAxisRaw("Horizontal");
-    //     float v = Input.GetAxisRaw("Vertical");
-    //     inputDir = new Vector3(h, v, 0);
-    //
-    //     Jump();
-    //     SetAnimation();
-    // }
+    public void InputJoystick(float x, float y)
+    {
+        inputDir = new Vector3(x, y, 0).normalized;
+        animator.SetFloat("JoystickX", x);
+        animator.SetFloat("JoystickY", y);
+        
+        if (inputDir.x != 0)
+        {
+            var scaleX = inputDir.x > 0 ? 1 : -1;
+            transform.localScale = new Vector3(scaleX, 1, 1);
+        }
+    }
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGround)
+        if (isGround)
         {
             animator.SetTrigger("Jump");
             knightRb.AddForceY(jumpPower, ForceMode2D.Impulse);
@@ -71,23 +78,34 @@ public class KnightController_Joystick : MonoBehaviour
     {
         if (inputDir.x != 0)
             knightRb.linearVelocityX = inputDir.x * moveSpeed;
-        
     }
 
-    void SetAnimation()
+    void Attack()
     {
-        if (inputDir.x != 0)
+        if (!isAttack)
         {
-            var scaleX = inputDir.x > 0 ? 1 : -1;
-            transform.localScale = new Vector3(scaleX, 1, 1);
-            
-            animator.SetBool("isRun", true);
+            animator.SetTrigger("Attack");
+            isAttack = true;
         }
         else
         {
-            animator.SetBool("isRun", false);
+            isCombo = true;
         }
     }
 
+    public void CheckCombo()
+    {
+        if (isCombo)
+        {
+            animator.SetBool("isCombo", true);
+            isAttack = false;
+            isCombo = false;
+        }
+        else
+        {
+            animator.SetBool("isCombo", false);
+        }
+    }
+    
     
 }
