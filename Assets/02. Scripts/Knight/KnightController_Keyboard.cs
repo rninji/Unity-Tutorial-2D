@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class KnightController_Keyboard : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class KnightController_Keyboard : MonoBehaviour
     private Vector3 inputDir;
 
     private bool isGround;
+    private bool isCombo;
+    private bool isAttack;
 
     [SerializeField]
     private float moveSpeed = 3f;
@@ -23,6 +27,8 @@ public class KnightController_Keyboard : MonoBehaviour
     void Update()
     {
         InputKeyboard();
+        Jump();
+        Attack();
     }
     
     void FixedUpdate()
@@ -47,15 +53,28 @@ public class KnightController_Keyboard : MonoBehaviour
             isGround = false;            
         }
     }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Monster"))
+            UnityEngine.Debug.Log("공격");
+    }
 
     void InputKeyboard()
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         inputDir = new Vector3(h, v, 0);
-
-        Jump();
-        SetAnimation();
+        
+        animator.SetFloat("JoystickX", inputDir.x);
+        animator.SetFloat("JoystickY", inputDir.y);
+        
+        // 방향 전환
+        if (inputDir.x != 0)
+        {
+            var scaleX = inputDir.x > 0 ? 1 : -1;
+            transform.localScale = new Vector3(scaleX, 1, 1);
+        }
     }
 
     void Jump()
@@ -73,21 +92,33 @@ public class KnightController_Keyboard : MonoBehaviour
             knightRb.linearVelocityX = inputDir.x * moveSpeed;
         
     }
-
-    void SetAnimation()
+    
+    void Attack()
     {
-        if (inputDir.x != 0)
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            var scaleX = inputDir.x > 0 ? 1 : -1;
-            transform.localScale = new Vector3(scaleX, 1, 1);
-            
-            animator.SetBool("isRun", true);
-        }
-        else
-        {
-            animator.SetBool("isRun", false);
+            if (!isAttack)
+            {
+                isAttack = true;
+                animator.SetTrigger("Attack");
+            }
+            else
+            {
+                animator.SetBool("isCombo", true);
+            }
         }
     }
 
-    
+    public void CheckCombo()
+    {
+        if (!animator.GetBool("isCombo"))
+            isAttack = false;
+    }
+
+    public void EndCombo()
+    {
+        isAttack = false;
+        animator.SetBool("isCombo", false);
+    }
+
 }

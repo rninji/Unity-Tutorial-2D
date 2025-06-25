@@ -104,6 +104,10 @@ public class KnightController_Joystick : MonoBehaviour
         isAttack = false;
         animator.SetBool("isCombo", false);
     }
-    
-    
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Monster"))
+            UnityEngine.Debug.Log("공격");
+    }
 }
