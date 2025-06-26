@@ -24,9 +24,6 @@ public class KnightController_Joystick : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         knightRb = GetComponent<Rigidbody2D>();
-        
-        jumpButton.onClick.AddListener(Jump);
-        attackButton.onClick.AddListener(Attack);
     }
     
     void FixedUpdate()
@@ -36,20 +33,12 @@ public class KnightController_Joystick : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            animator.SetBool("isGround", true);
-            isGround = true;
-        }
+       
     }
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            animator.SetBool("isGround", false);
-            isGround = false;            
-        }
+       
     }
 
     public void InputJoystick(float x, float y)
@@ -57,57 +46,16 @@ public class KnightController_Joystick : MonoBehaviour
         inputDir = new Vector3(x, y, 0).normalized;
         animator.SetFloat("JoystickX", x);
         animator.SetFloat("JoystickY", y);
-        
-        if (inputDir.x != 0)
-        {
-            var scaleX = inputDir.x > 0 ? 1 : -1;
-            transform.localScale = new Vector3(scaleX, 1, 1);
-        }
-    }
-
-    void Jump()
-    {
-        if (isGround)
-        {
-            animator.SetTrigger("Jump");
-            knightRb.AddForceY(jumpPower, ForceMode2D.Impulse);
-        }
     }
     
     void Move()
     {
         if (inputDir.x != 0)
-            knightRb.linearVelocityX = inputDir.x * moveSpeed;
-    }
-
-    void Attack()
-    {
-        if (!isAttack)
         {
-            isAttack = true;
-            animator.SetTrigger("Attack");
+            var scaleX = inputDir.x > 0 ? 1 : -1;
+            transform.localScale = new Vector3(scaleX, 1, 1);
         }
-        else
-        {
-            animator.SetBool("isCombo", true);
-        }
-    }
-
-    public void CheckCombo()
-    {
-        if (!animator.GetBool("isCombo"))
-            isAttack = false;
-    }
-
-    public void EndCombo()
-    {
-        isAttack = false;
-        animator.SetBool("isCombo", false);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.CompareTag("Monster"))
-            UnityEngine.Debug.Log("공격");
+            
+        knightRb.linearVelocity = inputDir * moveSpeed;
     }
 }
