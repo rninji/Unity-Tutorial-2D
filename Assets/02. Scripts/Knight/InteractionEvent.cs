@@ -20,6 +20,8 @@ public class InteractionEvent : MonoBehaviour
    public Vector3 outDoorPos;
 
    public bool isHouse;
+
+   [SerializeField] SoundController soundController;
    
    public void OnTriggerEnter2D(Collider2D other)
    {
@@ -55,6 +57,8 @@ public class InteractionEvent : MonoBehaviour
 
    IEnumerator DoorRoutine(Transform player)
    {
+      soundController.EventSoundPlay("Door");
+      
       yield return StartCoroutine(fade.FadeRoutine(2f, Color.black, true));
       
       player.transform.position = isHouse ? outDoorPos : inDoorPos;
@@ -63,6 +67,8 @@ public class InteractionEvent : MonoBehaviour
       
       isHouse = !isHouse;
       camera.isHouse = isHouse;
+      
+      
       
       yield return StartCoroutine(fade.FadeRoutine(2f, Color.black, false));
    }
