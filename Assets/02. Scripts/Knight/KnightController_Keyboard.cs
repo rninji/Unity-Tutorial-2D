@@ -13,6 +13,7 @@ public class KnightController_Keyboard : MonoBehaviour
     private bool isGround;
     private bool isCombo;
     private bool isAttack;
+    private bool isLadder;
 
     [SerializeField]
     private float moveSpeed = 3f;
@@ -56,8 +57,28 @@ public class KnightController_Keyboard : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // 공격
         if(other.CompareTag("Monster"))
             UnityEngine.Debug.Log("공격");
+        
+        // 사다리 감지
+        if (other.CompareTag("Ladder"))
+        {
+            isLadder = true;
+            knightRb.gravityScale = 0;
+            knightRb.linearVelocity = Vector2.zero;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        // 사다리 감지
+        if (other.CompareTag("Ladder"))
+        {
+            isLadder = false;
+            knightRb.gravityScale = 7;
+            knightRb.linearVelocity = Vector2.zero;
+        }
     }
 
     void InputKeyboard()
@@ -90,7 +111,12 @@ public class KnightController_Keyboard : MonoBehaviour
     {
         if (inputDir.x != 0)
             knightRb.linearVelocityX = inputDir.x * moveSpeed;
-        
+
+        // 사다리 타기
+        if (isLadder && inputDir.y != 0)
+        {
+            knightRb.linearVelocityY = inputDir.y * moveSpeed;
+        }
     }
     
     void Attack()
