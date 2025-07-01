@@ -16,6 +16,7 @@ public class SoundController : MonoBehaviour
 
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         bgmVolume.value = bgmAudio.volume;
         eventVolume.value = eventAudio.volume;
         bgmMute.isOn = bgmAudio.mute;
