@@ -3,11 +3,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class KnightController_Keyboard : MonoBehaviour
+public class KnightController_Keyboard : MonoBehaviour, IDamageable
 {
     Animator animator;
     Rigidbody2D knightRb;
-
+    private Collider2D knightColl;
     private Vector3 inputDir;
 
     private bool isGround;
@@ -19,10 +19,21 @@ public class KnightController_Keyboard : MonoBehaviour
     private float moveSpeed = 3f;
     [SerializeField]
     private float jumpPower = 1f;
+
+    [SerializeField] private float atkDamage = 15f;
+    
+    public float hp = 100f;
+    public float currHp;
+
+    public Image hpBar;
+    
     void Start()
     {
         animator = GetComponent<Animator>();
         knightRb = GetComponent<Rigidbody2D>();
+        knightColl = GetComponent<Collider2D>();
+
+        currHp = hp;
     }
 
     void Update()
@@ -58,8 +69,14 @@ public class KnightController_Keyboard : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // 공격
-        if(other.CompareTag("Monster"))
-            UnityEngine.Debug.Log("공격");
+        if (other.CompareTag("Monster"))
+        {
+            if (other.GetComponent<IDamageable>() != null)
+            {
+                Debug.Log(atkDamage);
+                other.GetComponent<IDamageable>().TakeDamage(atkDamage);
+            }
+        }
         
         // 사다리 감지
         if (other.CompareTag("Ladder"))
@@ -95,6 +112,17 @@ public class KnightController_Keyboard : MonoBehaviour
         {
             var scaleX = inputDir.x > 0 ? 1 : -1;
             transform.localScale = new Vector3(scaleX, 1, 1);
+        }
+
+        if (inputDir.y < 0)
+        {
+            GetComponent<CapsuleCollider2D>().size = new Vector2(0.95f, 0.6f);
+            GetComponent<CapsuleCollider2D>().offset = new Vector2(0.035f, 0.5f);
+        }
+        else
+        {
+            GetComponent<CapsuleCollider2D>().size = new Vector2(0.95f, 1.25f);
+            GetComponent<CapsuleCollider2D>().offset = new Vector2(0.035f, 0.63f);
         }
     }
 
@@ -147,4 +175,20 @@ public class KnightController_Keyboard : MonoBehaviour
         animator.SetBool("isCombo", false);
     }
 
+    public void TakeDamage(float damage)
+    {
+        currHp -= damage;
+
+        hpBar.fillAmount = currHp / hp; // 현재체력 / 최대체력
+        
+        if (currHp <= 0f)
+            Death();
+    }
+
+    public void Death()
+    {
+        animator.SetTrigger("Death");
+        knightColl.enabled = false;
+        knightRb.gravityScale = 0;
+    }
 }

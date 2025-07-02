@@ -1,16 +1,19 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class Goblin : MonsterCore
 {
-    private float traceDist = 5f;
-    private float attackDist = 1.5f;
+    
 
     private bool isAttack;
     
     void Start()
     {
-        Init(10f, 3f, 2f);
+        Init(30f, 3f, 2f, 10f);
+        traceDist = 5f;
+        attackDist = 1.5f;
+        hpBar.fillAmount = 1;
     }
 
     public override void Idle()
@@ -19,24 +22,17 @@ public class Goblin : MonsterCore
         timer += Time.deltaTime;
         if (timer >= stateTime)
             State = MonsterState.PATROL;
-        
-        // 타겟이 시야에 있고 추격 범위 이내일 경우 상태 전환
-        if (targetDist < traceDist && isTrace)
-            State = MonsterState.TRACE;
     }
 
     public override void Patrol()
     {
+        // 이동
         timer += Time.deltaTime;
         transform.position += Vector3.right * moveDir * speed * Time.deltaTime;
         
         // 지정 시간 초과 시 Idle 상태로 변환
         if (timer >= stateTime)
             State = MonsterState.IDLE;
-        
-        // 타겟이 시야에 있고 추격 범위 이내일 경우 상태 전환
-        if (targetDist < traceDist && isTrace)
-            State = MonsterState.TRACE;
     }
 
     public override void Trace()
@@ -47,14 +43,7 @@ public class Goblin : MonsterCore
         // 타겟 방향 바라보기
         moveDir = targetDir.x > 0 ? 1 : -1;
         transform.localScale = new Vector3(moveDir, 1, 1);
-
-        // 범위 벗어나면 Idle로 전환
-        if (targetDist > traceDist)
-            State = MonsterState.IDLE;
-        
-        // 공격 범위 이내라면 Attack으로 전환
-        if (targetDist < attackDist)
-            State = MonsterState.ATTACK;
+        hpBar.transform.localScale = new Vector3(moveDir, 1, 1);
     }
 
     public override void Attack()
@@ -67,13 +56,21 @@ public class Goblin : MonsterCore
 
     IEnumerator AttackRoutine()
     {
+        // 공격 애니메이션
         isAttack = true;
         animator.SetTrigger("Attack");
+        float currAnimLength = animator.GetCurrentAnimatorStateInfo(0).length; // 애니메이션 길이
+        yield return new WaitForSeconds(currAnimLength);
         
-        yield return new WaitForSeconds(attackTime);
+        // 공격 쿨다운 - Idle 애니메이션 실행 + Player 바라보기
+        Vector3 targetDir = (target.position - transform.position).normalized;
+        moveDir = targetDir.x > 0 ? 1 : -1;
+        transform.localScale = new Vector3(moveDir, 1, 1);
+        hpBar.transform.localScale = new Vector3(moveDir, 1, 1);
+        yield return new WaitForSeconds(attackTime - currAnimLength);
+        
+        // 추적으로 변경
         isAttack = false;
-
-        State = MonsterState.IDLE;
-        // ChangeState(MonsterState.IDLE);
+        State = MonsterState.TRACE;
     }
 }

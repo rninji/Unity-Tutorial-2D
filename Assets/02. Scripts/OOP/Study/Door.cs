@@ -6,4 +6,9 @@ public class Door : MonoBehaviour, IDamageable
     {
         UnityEngine.Debug.Log($"{damage} 만큼의 피해를 입었습니다.");
     }
+
+    public void Death()
+    {
+        
+    }
 }
