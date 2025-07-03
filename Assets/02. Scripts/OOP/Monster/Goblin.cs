@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Goblin : MonsterCore
 {
-    
-
     private bool isAttack;
     
     void Start()

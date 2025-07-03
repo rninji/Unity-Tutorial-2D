@@ -19,8 +19,8 @@ public class HpPotion : MonoBehaviour, IItemObject
     
     public void Get()
     {
-        gameObject.SetActive(false);
-        // 인벤토리에 추가
+        gameObject.SetActive(false); // 오브젝트 off
+        Manager.GetItem(this); // 인벤토리에 추가
     }
 
     public void Use()

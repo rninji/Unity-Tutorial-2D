@@ -185,8 +185,15 @@ public abstract class MonsterCore : MonoBehaviour, IDamageable
       monsterColl.enabled = false;
       monsterRb.gravityScale = 0;
       isDead = true;
-      
+
       // 아이템 드롭
-      itemManager.DropItem(transform.position);
+      int itemCount = Random.Range(0, 3);
+      if (itemCount > 0)
+      {
+         for (int i = 0; i < itemCount; i++)
+         {
+            itemManager.DropItem(transform.position);
+         }
+      }
    }
 }

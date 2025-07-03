@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 5147812939957436244}
   m_Layer: 9
   m_Name: Goblin
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -465,11 +465,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterState: 0
+  itemManager: {fileID: 0}
   target: {fileID: 0}
   hp: 0
   speed: 0
   attackTime: 0
   atkDamage: 0
+  currHp: 0
+  hpBar: {fileID: 9196611530422983728}
   moveDir: 1
 --- !u!70 &4532410814841928924
 CapsuleCollider2D:
